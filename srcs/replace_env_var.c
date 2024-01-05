@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replace_env_var.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrabat <mrabat@student.42.fr>              +#+  +:+       +#+        */
+/*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 10:47:26 by svanmarc          #+#    #+#             */
-/*   Updated: 2023/12/31 00:10:59 by mrabat           ###   ########.fr       */
+/*   Updated: 2024/01/04 18:35:11 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	replace_env_var(t_data *data)
 {
 	t_token	*tmp;
 
-	tmp = *data->tokens;
+	tmp = data->tokens;
 	while (tmp)
 	{
 		if (tmp->type == TK_TYPE_STR && tmp->change_env_var == 0)

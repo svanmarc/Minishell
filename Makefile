@@ -10,7 +10,7 @@ LIBFT_NAME = libft.a
 DEP_FILE = .depend
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g $(INCLUDES)
+CFLAGS = -Wall -Wextra -Werror -g  $(INCLUDES) 
 
 RM = rm -rf
 

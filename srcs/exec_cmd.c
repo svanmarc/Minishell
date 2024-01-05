@@ -6,7 +6,7 @@
 /*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 14:37:24 by mmarie            #+#    #+#             */
-/*   Updated: 2024/01/02 12:11:21 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/04 16:54:26 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,16 +103,16 @@ int	ft_exec(t_data *data)
 {
 	char	**argv;
 
-	if (apply_redirections(data, data->tokens) == 1)
+	if (apply_redirections(data, &data->tokens) == 1)
 	{
 		reset_redirections(data);
 		return (1);
 	}
 	if (data->heredoc_handled == 1)
 	{
-		apply_redirection_in(data, *data->tokens);
+		apply_redirection_in(data, data->tokens);
 	}
-	argv = get_cmd_array(data->tokens);
+	argv = get_cmd_array(&data->tokens);
 	if (!argv[0])
 		return (1);
 	if (ft_is_builltins_cmd(argv[0]))
@@ -120,7 +120,7 @@ int	ft_exec(t_data *data)
 	else
 		ft_exec_ext_command(argv, data);
 	reset_redirections(data);
-	free_tokens(data->tokens);
+	free_tokens(&data->tokens);
 	free(argv);
 	return (0);
 }

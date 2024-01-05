@@ -6,7 +6,7 @@
 /*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/31 01:17:54 by mrabat            #+#    #+#             */
-/*   Updated: 2024/01/03 09:32:21 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/04 16:40:01 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct s_data
 {
 	char	**env;
 	char	*line;
-	t_token	**tokens;
+	t_token	*tokens;
 	int		exit;
 	int		last_exit_status;
 	int		current_stdin;

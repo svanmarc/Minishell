@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_list_tools.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrabat <mrabat@student.42.fr>              +#+  +:+       +#+        */
+/*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 06:13:24 by svanmarc          #+#    #+#             */
-/*   Updated: 2023/12/31 00:45:56 by mrabat           ###   ########.fr       */
+/*   Updated: 2024/01/04 18:38:32 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	free_token(t_token *token)
+{
+	if (!token)
+		return ;
+	if (token->val)
+	{
+		free(token->val);
+		token->val = NULL;
+	}
+	if (token)
+		free(token);
+}
 
 void	free_tokens(t_token **tokens)
 {
@@ -23,8 +36,11 @@ void	free_tokens(t_token **tokens)
 	while (current)
 	{
 		next = current->next;
-		free(current->val);
-		current->val = NULL;
+		if (current->val)
+		{
+			free(current->val);
+			current->val = NULL;
+		}
 		free(current);
 		current = next;
 	}
@@ -59,7 +75,11 @@ t_token	*create_new_token(char *val, int type)
 	new_token->type = type;
 	free(new_token->val);
 	new_token->val = ft_strdup(val);
-	free(val);
+	if (!new_token->val)
+	{
+		free(new_token);
+		return (NULL);
+	}
 	new_token->previous = NULL;
 	new_token->next = NULL;
 	return (new_token);

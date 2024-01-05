@@ -6,7 +6,7 @@
 /*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 16:15:21 by svanmarc          #+#    #+#             */
-/*   Updated: 2024/01/03 09:09:44 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/04 19:26:42 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,14 @@ void	merge_tokens_if_no_space_before(t_token **tokens)
 			&& tmp->next->type == TK_TYPE_STR && tmp->type == TK_TYPE_STR)
 		{
 			merged_val = ft_strjoin(tmp->val, next_token->val);
+			if (!merged_val)
+				return ;
 			free(tmp->val);
-			free(next_token->val);
 			tmp->val = merged_val;
-			next_token = tmp->next;
 			tmp->next = next_token->next;
 			if (tmp->next)
 				tmp->next->previous = tmp;
+			free(next_token->val);
 			free(next_token);
 		}
 		else
@@ -45,7 +46,7 @@ int	free_and_exit_if_forbidden_token(t_data *data)
 {
 	t_token	*tmp;
 
-	tmp = *data->tokens;
+	tmp = data->tokens;
 	while (tmp)
 	{
 		if (tmp->type == TK_TYPE_AND || tmp->type == TK_TYPE_OR)
@@ -80,20 +81,21 @@ int	ft_minishell(t_data *data)
 	else
 	{
 		add_history(data->line);
-		data->tokens = tokenize_line(data->line);
-		if (data->tokens && *data->tokens)
+		data->tokens = tokenize_line(data);
+		if (!data->tokens)
+		{
+			free(data->line);
+			data->line = NULL;
+			return (1);
+		}
+		else
 		{
 			if (free_and_exit_if_forbidden_token(data) == 1)
 				return (1);
 			replace_env_var(data);
-			merge_tokens_if_no_space_before(data->tokens);
+			merge_tokens_if_no_space_before(&data->tokens);
 			ft_exec_pipe(data);
-			ft_ftok(data->tokens);
-		}
-		else
-		{
-			ft_ftok(data->tokens);
-			return (1);
+			ft_ftok(&data->tokens);
 		}
 	}
 	return (0);
@@ -117,7 +119,7 @@ int	main(int argc, char **argv, char **env)
 			free(data->line);
 			data->line = NULL;
 		}
-		ft_ftok(data->tokens);
+		ft_ftok(&data->tokens);
 		if (data->exit == 1)
 			break ;
 	}

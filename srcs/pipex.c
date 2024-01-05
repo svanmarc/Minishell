@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrabat <mrabat@student.42.fr>              +#+  +:+       +#+        */
+/*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 20:00:19 by svanmarc          #+#    #+#             */
-/*   Updated: 2023/12/31 00:45:04 by mrabat           ###   ########.fr       */
+/*   Updated: 2024/01/04 16:52:36 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ void	ft_launch_cmd(int nbcmd, t_data *data, int *pipefd)
 	t_token	**token_arrays;
 
 	i = 0;
-	token_arrays = create_token_arrays(data->tokens, nbcmd);
+	token_arrays = create_token_arrays(&data->tokens, nbcmd);
 	while (i < nbcmd)
 	{
-		data->tokens = &token_arrays[i];
+		data->tokens = token_arrays[i];
 		ft_fork_and_exec(data, pipefd, i, nbcmd);
 		i++;
 	}
@@ -68,7 +68,7 @@ int	ft_exec_pipe(t_data *data)
 
 	i = 0;
 	nbcmd = 0;
-	ft_count_pipe(data->tokens, &nbcmd);
+	ft_count_pipe(&data->tokens, &nbcmd);
 	if (nbcmd == 1)
 		ft_exec(data);
 	else

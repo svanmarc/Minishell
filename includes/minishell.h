@@ -6,7 +6,7 @@
 /*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 20:19:39 by chbouthe          #+#    #+#             */
-/*   Updated: 2024/01/03 09:18:07 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/04 16:47:56 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	add_token_back(t_token **tokens, t_token *new_token);
 void	free_tokens(t_token **tokens);
 int		make_list_tokens(t_token **tokens, char *line, int type, int space);
 t_token	*its_last_token(t_token **tokens);
-t_token	**tokenize_line(char *line);
+t_token	*tokenize_line(t_data *data);
 int		get_and_or_type(char *line, int i);
 int		get_redirection_type(char *line, int i);
 int		get_token_type(char *line, int i);
