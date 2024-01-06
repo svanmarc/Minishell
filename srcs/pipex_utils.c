@@ -6,7 +6,7 @@
 /*   By: mrabat <mrabat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 20:43:08 by svanmarc          #+#    #+#             */
-/*   Updated: 2023/12/31 00:47:03 by mrabat           ###   ########.fr       */
+/*   Updated: 2024/01/06 22:45:34 by mrabat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ t_token	**create_token_arrays(t_token **tokens, int nbpipes)
 	t_token	**token_arrays;
 	t_token	*tmp;
 	int		i;
-
 	current_token = *tokens;
 	i = 0;
 	token_arrays = malloc(sizeof(t_token *) * (nbpipes + 1));
@@ -51,7 +50,9 @@ t_token	**create_token_arrays(t_token **tokens, int nbpipes)
 			&& current_token->next)
 		{
 			tmp = current_token->next;
+			current_token->next->previous = NULL;
 			current_token->previous->next = NULL;
+			free(current_token->val);
 			free(current_token);
 			current_token = tmp;
 		}
@@ -60,26 +61,20 @@ t_token	**create_token_arrays(t_token **tokens, int nbpipes)
 	return (token_arrays);
 }
 
-void	ft_fork_and_exec(t_data *data, int *pipefd, int i, int nbcmd)
+void	ft_fork_and_exec(t_data *data, int *pipefd)
 {
 	pid_t	pid;
-	int		j;
+	int	status;
 
-	j = 0;
+	status = 0;
+	pipe(pipefd);
 	pid = fork();
 	if (pid == 0)
 	{
-		if (i < nbcmd - 1)
-			dup2(pipefd[i * 2 + 1], STDOUT_FILENO);
-		if (i > 0)
-			dup2(pipefd[(i - 1) * 2], STDIN_FILENO);
-		j = 0;
-		while (j < 2 * (nbcmd - 1))
-		{
-			close(pipefd[j]);
-			j++;
-		}
-		ft_exec(data);
+		dup2(pipefd[1], 1);
+		close(pipefd[0]);
+		close(pipefd[1]);
+		ft_exec(data);	
 		exit(data->last_exit_status);
 	}
 	else if (pid < 0)
@@ -87,6 +82,17 @@ void	ft_fork_and_exec(t_data *data, int *pipefd, int i, int nbcmd)
 		perror("fork");
 		exit(EXIT_FAILURE);
 	}
+	waitpid(pid, &status, 0);
+	dup2(pipefd[0], 0);
+	close(pipefd[0]);
+	close(pipefd[1]);
+
+	if (WIFEXITED(status))
+		data->last_exit_status = WEXITSTATUS(status);
+	else
+		data->last_exit_status = 128 + WTERMSIG(status);
+	
+	
 }
 
 void	ft_wait_end(int nbcmd, int i, t_data *data)

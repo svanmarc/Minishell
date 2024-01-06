@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: mrabat <mrabat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 16:15:21 by svanmarc          #+#    #+#             */
-/*   Updated: 2024/01/04 19:26:42 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/06 23:44:12 by mrabat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,20 @@ void	merge_tokens_if_no_space_before(t_token **tokens)
 	}
 }
 
+void	ft_ftok(t_data *data)
+{
+	if (data->tokens)
+	{
+		free_tokens(&(data->tokens));
+		data->tokens = NULL;
+	}
+	if (data->line)
+	{
+		free(data->line);
+		data->line = NULL;
+	}
+}
+
 int	free_and_exit_if_forbidden_token(t_data *data)
 {
 	t_token	*tmp;
@@ -53,22 +67,14 @@ int	free_and_exit_if_forbidden_token(t_data *data)
 		{
 			printf(RED "sorry, dont write [%s]", tmp->val);
 			printf(RED "we didn't do the bonus\n" RST);
+			ft_ftok(data);
 			return (1);
 		}
 		tmp = tmp->next;
 	}
 	if (tmp)
-		free_data(data);
+		ft_ftok(data);
 	return (0);
-}
-
-void	ft_ftok(t_token **tokens)
-{
-	if (tokens)
-	{
-		free_tokens(tokens);
-		tokens = NULL;
-	}
 }
 
 int	ft_minishell(t_data *data)
@@ -95,7 +101,7 @@ int	ft_minishell(t_data *data)
 			replace_env_var(data);
 			merge_tokens_if_no_space_before(&data->tokens);
 			ft_exec_pipe(data);
-			ft_ftok(&data->tokens);
+			ft_ftok(data);
 		}
 	}
 	return (0);
@@ -104,6 +110,7 @@ int	ft_minishell(t_data *data)
 int	main(int argc, char **argv, char **env)
 {
 	t_data	*data;
+	int		ret;
 
 	(void)argc;
 	(void)argv;
@@ -114,15 +121,11 @@ int	main(int argc, char **argv, char **env)
 		data->line = readline("Myshell $>");
 		if (ft_minishell(data))
 			continue ;
-		if (data->line)
-		{
-			free(data->line);
-			data->line = NULL;
-		}
-		ft_ftok(&data->tokens);
+		ft_ftok(data);
 		if (data->exit == 1)
 			break ;
 	}
+	ret = data->last_exit_status;
 	free_data(data);
-	return (0);
+	return (ret);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: mrabat <mrabat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 20:00:19 by svanmarc          #+#    #+#             */
-/*   Updated: 2024/01/04 16:52:36 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/06 22:56:07 by mrabat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@ void	ft_count_pipe(t_token **tokens, int *count)
 	tmp = *tokens;
 	while (tmp)
 	{
+		if (tmp->type == TK_TYPE_PIPE && !tmp->next)
+		{
+			*count = 0;
+			return ;
+		}
 		if (tmp->type == TK_TYPE_PIPE)
 			*count = *count + 1;
 		tmp = tmp->next;
@@ -33,57 +38,38 @@ void	ft_launch_cmd(int nbcmd, t_data *data, int *pipefd)
 
 	i = 0;
 	token_arrays = create_token_arrays(&data->tokens, nbcmd);
-	while (i < nbcmd)
+	data->default_stdin = dup(STDIN_FILENO);
+	data->default_stdout = dup(STDOUT_FILENO);
+	while (i + 1 < nbcmd)
 	{
 		data->tokens = token_arrays[i];
-		ft_fork_and_exec(data, pipefd, i, nbcmd);
+		ft_fork_and_exec(data, pipefd);
 		i++;
+		free_tokens(&data->tokens);
 	}
-}
-
-int	*ft_make_pipefd(int nbcmd)
-{
-	int	i;
-	int	*pipefd;
-
-	pipefd = malloc(sizeof(int) * 2 * (nbcmd - 1));
-	i = 0;
-	while (i < nbcmd - 1)
-	{
-		if (pipe(pipefd + i * 2) < 0)
-		{
-			perror("pipe");
-			exit(EXIT_FAILURE);
-		}
-		i++;
-	}
-	return (pipefd);
+	data->tokens = token_arrays[i];
+	if (data->tokens->val)
+		ft_exec(data);
+	dup2(data->default_stdin,STDIN_FILENO);
+	dup2(data->default_stdout,STDOUT_FILENO);
+	close(data->default_stdout);
+	close(data->default_stdin);
+	free(token_arrays);
 }
 
 int	ft_exec_pipe(t_data *data)
 {
 	int	nbcmd;
-	int	i;
-	int	*pipefd;
+	int	pipefd[2];
 
-	i = 0;
 	nbcmd = 0;
 	ft_count_pipe(&data->tokens, &nbcmd);
-	if (nbcmd == 1)
-		ft_exec(data);
+	if (nbcmd > 0)
+		ft_launch_cmd(nbcmd, data, pipefd);
 	else
 	{
-		pipefd = ft_make_pipefd(nbcmd);
-		i = 0;
-		ft_launch_cmd(nbcmd, data, pipefd);
-		while (i < 2 * (nbcmd - 1))
-		{
-			close(pipefd[i]);
-			i++;
-		}
-		i = 0;
-		ft_wait_end(nbcmd, i, data);
-		free(pipefd);
+		printf("need command for pipe \n");
+		return(1);
 	}
 	return (0);
 }

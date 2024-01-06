@@ -1,0 +1,10 @@
+includes
+libft
+Makefile
+minishell
+objs
+sleep.txt
+srcs
+txt1
+txt3.txt
+txt.txt

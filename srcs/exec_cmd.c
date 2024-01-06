@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: mrabat <mrabat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 14:37:24 by mmarie            #+#    #+#             */
-/*   Updated: 2024/01/04 16:54:26 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/06 23:26:04 by mrabat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	ft_exec_builtins(t_data *data, char **argv)
 	else if (ft_strncmp(argv[0], "env", 4) == 0)
 		ret = exec_env(data);
 	else if (ft_strncmp(argv[0], "exit", 5) == 0)
-		ret = ft_exit(data);
+		ret = ft_exit(ft_tab_size(argv), argv, data);
 	data->last_exit_status = ret;
 }
 
@@ -84,15 +84,13 @@ void	ft_exec_ext_command(char **argv, t_data *data)
 	char	**path;
 	char	*cmd;
 
-	if (argv[0][0] == '/')
-	{
-		exec_external_command(argv[0], argv, data);
-		return ;
-	}
 	path = ft_getenvpath(data->env);
 	cmd = ft_checkexe(argv[0], path);
 	if (cmd == NULL)
-		data->last_exit_status = 1;
+	{
+		printf("%s : command not found\n", argv[0]);
+		data->last_exit_status = 127;
+	}
 	else
 		exec_external_command(cmd, argv, data);
 	ft_free_tab(path);
@@ -103,6 +101,10 @@ int	ft_exec(t_data *data)
 {
 	char	**argv;
 
+
+	argv = get_cmd_array(&data->tokens);
+	if (!argv[0])
+		return (1);
 	if (apply_redirections(data, &data->tokens) == 1)
 	{
 		reset_redirections(data);
@@ -112,14 +114,11 @@ int	ft_exec(t_data *data)
 	{
 		apply_redirection_in(data, data->tokens);
 	}
-	argv = get_cmd_array(&data->tokens);
-	if (!argv[0])
-		return (1);
 	if (ft_is_builltins_cmd(argv[0]))
 		ft_exec_builtins(data, argv);
 	else
 		ft_exec_ext_command(argv, data);
-	reset_redirections(data);
+	//reset_redirections(data);
 	free_tokens(&data->tokens);
 	free(argv);
 	return (0);

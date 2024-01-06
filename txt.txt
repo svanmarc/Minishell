@@ -1,0 +1,9 @@
+includes
+libft
+Makefile
+minishell
+objs
+srcs
+txt1
+txt3.txt
+txt.txt

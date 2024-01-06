@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: mrabat <mrabat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 20:19:39 by chbouthe          #+#    #+#             */
-/*   Updated: 2024/01/04 16:47:56 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/06 23:35:16 by mrabat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int		builtin_cd(int argc, char **argv, t_data *data);
 int		exec_unset(int argc, char **argv, t_data *data);
 int		exec_export(int argc, char **argv, t_data *data);
 int		exec_env(t_data *data);
-int		ft_exit(t_data *data);
+int		ft_exit(int argc, char **argv, t_data *data);
 int		ft_arg_error(char **argv);
 int		ft_check_file_exist(char *fd);
 char	*ft_getcmd(char *arg);
@@ -98,7 +98,7 @@ int		ft_exec_pipe(t_data *data);
 t_token	**create_token_arrays(t_token **tokens, int nbpipes);
 int		ft_is_builltins_cmd(char *cmd);
 void	ft_exec_builtins(t_data *data, char **argv);
-void	ft_fork_and_exec(t_data *data, int *pipefd, int i, int nbcmd);
+void	ft_fork_and_exec(t_data *data, int *pipefd);
 char	*ft_str_replace_version_3(char *str, char *new_val, int start, int end);
 
 //pipe

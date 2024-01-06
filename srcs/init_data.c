@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: mrabat <mrabat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 16:22:23 by svanmarc          #+#    #+#             */
-/*   Updated: 2024/01/04 18:43:40 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/06 21:18:52 by mrabat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ t_data	*init_data(char **env)
 	data->current_stdin = STDIN_FILENO;
 	data->original_stdin = -1;
 	data->current_stdout = STDOUT_FILENO;
+	data->default_stdin = dup(STDIN_FILENO);
+	data->default_stdout = dup(STDOUT_FILENO);
 	data->original_stdout = -1;
 	data->tokens = NULL;
 	data->heredoc_handled = 0;
@@ -50,6 +52,9 @@ void	free_data(t_data *data)
 		//free(data->tokens);
 		data->tokens = NULL;
 	}
+	//close(data->default_stdin);
+	//close(data->default_stdout);
 	free(data);
 	data = NULL;
 }
+

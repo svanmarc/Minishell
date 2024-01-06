@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_define.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: mrabat <mrabat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/31 01:17:54 by mrabat            #+#    #+#             */
-/*   Updated: 2024/01/04 16:40:01 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/06 21:13:57 by mrabat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ typedef struct s_data
 	int		current_stdin;
 	int		original_stdin;
 	int		current_stdout;
+	int		default_stdin;
+	int		default_stdout;
 	int		original_stdout;
 	int		heredoc_handled;
 	int		nb_pipes;

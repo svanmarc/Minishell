@@ -6,7 +6,7 @@
 /*   By: mrabat <mrabat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 14:34:59 by mrabat            #+#    #+#             */
-/*   Updated: 2023/12/31 00:45:33 by mrabat           ###   ########.fr       */
+/*   Updated: 2024/01/06 21:10:02 by mrabat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,11 @@ char	*ft_checkexe(char *cmd, char **path)
 	char	*for_exe;
 
 	i = 0;
+	if (ft_strchr(cmd,'/'))
+	{
+		if (access(cmd, F_OK) == 0)
+			return ft_strdup(cmd);
+	}
 	while (path[i])
 	{
 		for_exe = ft_strjoin(path[i], "/");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: mrabat <mrabat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 06:12:02 by svanmarc          #+#    #+#             */
-/*   Updated: 2024/01/04 18:47:57 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/06 22:11:17 by mrabat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ int	make_quote_token_and_return_id(char *line, int *i, t_token **tokens)
 		tmp->change_env_var = 0;
 	else if (quote_type == '\'')
 		tmp->change_env_var = 1;
+	free(val);
 	return (closing_quote_id + 1);
 }
 
