@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   REDIR_heredoc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrabat <mrabat@student.42.fr>              +#+  +:+       +#+        */
+/*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 11:57:28 by svanmarc          #+#    #+#             */
-/*   Updated: 2023/12/31 00:47:34 by mrabat           ###   ########.fr       */
+/*   Updated: 2024/01/07 17:57:21 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	redirection_dilem2(int fd, char *delim)
+void	redirection_delim(int fd, char *delim)
 {
 	char	*line;
 
@@ -45,7 +45,7 @@ int	apply_redirection_in_delim(t_data *data, t_token *token)
 	fd = open(".heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 		return (handle_error_fd(data, token, fd));
-	redirection_dilem2(fd, delim);
+	redirection_delim(fd, delim);
 	close(fd);
 	data->heredoc_handled = 1;
 	return (0);

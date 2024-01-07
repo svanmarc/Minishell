@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_cmd.c                                         :+:      :+:    :+:   */
+/*   CMD_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 14:37:24 by mmarie            #+#    #+#             */
-/*   Updated: 2024/01/07 11:16:51 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/07 18:20:33 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,10 +117,6 @@ int	ft_exec(t_data *data)
 	{
 		reset_redirections(data);
 		return (1);
-	}
-	if (data->heredoc_handled == 1)
-	{
-		apply_redirection_in(data, data->tokens);
 	}
 	if (ft_is_builltins_cmd(argv[0]))
 		ft_exec_builtins(data, argv);

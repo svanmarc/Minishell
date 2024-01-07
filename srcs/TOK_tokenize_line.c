@@ -6,7 +6,7 @@
 /*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 16:43:47 by svanmarc          #+#    #+#             */
-/*   Updated: 2024/01/07 16:44:13 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/07 17:30:34 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,11 @@ int	make_str_token_and_return_id(char *line, int *i, t_token **tokens)
 	return (end_str_id);
 }
 
-t_token	*tokenize_line(t_data *data)
+t_token	*make_tokens(t_data *data)
 {
 	t_token	*current;
 	int		i;
 
-	if (!data->line || !data)
-		return (NULL);
 	current = NULL;
 	i = 0;
 	while (data->line[i])
@@ -62,5 +60,13 @@ t_token	*tokenize_line(t_data *data)
 		if (data->tokens == NULL)
 			data->tokens = current;
 	}
+	return (data->tokens);
+}
+
+t_token	*tokenize_line(t_data *data)
+{
+	if (!data->line || !data)
+		return (NULL);
+	data->tokens = make_tokens(data);
 	return (data->tokens);
 }
