@@ -6,7 +6,7 @@
 /*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 20:03:00 by svanmarc          #+#    #+#             */
-/*   Updated: 2024/01/02 12:33:05 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/07 11:49:07 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,3 @@ int	builtin_pwd(int argc, char **argv, char **env)
 	printf("%s\n", chemin);
 	return (0);
 }
-
-

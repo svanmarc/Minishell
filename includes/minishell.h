@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrabat <mrabat@student.42.fr>              +#+  +:+       +#+        */
+/*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 20:19:39 by chbouthe          #+#    #+#             */
-/*   Updated: 2024/01/07 00:53:42 by mrabat           ###   ########.fr       */
+/*   Updated: 2024/01/07 13:56:55 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,5 +107,15 @@ t_token	**create_token_arrays(t_token **tokens, int nbpipes);
 void	ft_print_token_array(t_token **token_array);
 void	ft_wait_end(int nbcmd, int i, t_data *data);
 char	*ft_getenvhome(char **envp);
+void	dup_close_pipe(int *pipefd, int fd);
+
+int	ft_setenv(char *name, char *value, char **env);
+char	*ft_getenv(char *name, char **env);
+
+int	free_tokens_and_ret_neg(t_token **tokens);
+int	free_tokens_and_val_and_ret_neg(t_token **tokens, char *val);
+
+int	make_op_token_and_return_id(char *line, int *i, t_token **tokens);
+int	make_quote_token_and_return_id(char *line, int *i, t_token **tokens);
 
 #endif

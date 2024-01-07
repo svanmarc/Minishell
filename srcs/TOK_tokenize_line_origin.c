@@ -1,16 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenize_line.c                                    :+:      :+:    :+:   */
+/*   TOK_tokenize_line_origin.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrabat <mrabat@student.42.fr>              +#+  +:+       +#+        */
+/*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 06:12:02 by svanmarc          #+#    #+#             */
-/*   Updated: 2024/01/06 22:11:17 by mrabat           ###   ########.fr       */
+/*   Updated: 2024/01/07 14:38:59 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	get_id_of_closing_quote(char *line, int opening_quote_id)
+{
+	char	quote_type;
+
+	quote_type = line[opening_quote_id];
+	opening_quote_id ++;
+	while (line[opening_quote_id])
+	{
+		if (line[opening_quote_id] == quote_type)
+			return (opening_quote_id);
+		opening_quote_id++;
+	}
+	return (-1);
+}
 
 int	make_op_token_and_return_id(char *line, int *i, t_token **tokens)
 {
@@ -132,12 +147,6 @@ int	make_str_token_and_return_id(char *line, int *i, t_token **tokens)
 	free(val);
 	return (end_str_id);
 }
-
-// t_token	**free_tokens_and_return_null(t_token **tokens)
-// {
-// 	free_tokens(tokens);
-// 	return (NULL);
-// }
 
 t_token	*tokenize_line(t_data *data)
 {

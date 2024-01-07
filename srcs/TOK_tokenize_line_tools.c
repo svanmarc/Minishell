@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize_line_tools.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svanmarc <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 21:03:40 by svanmarc          #+#    #+#             */
-/*   Updated: 2023/12/30 21:03:56 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/07 13:12:39 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,21 +61,6 @@ int	get_token_type(char *line, int i)
 	else if (line[i] == ')')
 		return (TK_TYPE_PAR_C);
 	return (0);
-}
-
-int	get_id_of_closing_quote(char *line, int opening_quote_id)
-{
-	char	quote_type;
-
-	quote_type = line[opening_quote_id];
-	opening_quote_id ++;
-	while (line[opening_quote_id])
-	{
-		if (line[opening_quote_id] == quote_type)
-			return (opening_quote_id);
-		opening_quote_id++;
-	}
-	return (-1);
 }
 
 int	get_end_str_id(char *line, int start_str_id)

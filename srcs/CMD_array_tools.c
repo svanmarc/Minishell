@@ -1,16 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_commands.c                                 :+:      :+:    :+:   */
+/*   CMD_array_checkexe.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 13:04:09 by svanmarc          #+#    #+#             */
-/*   Updated: 2024/01/04 16:45:30 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/07 13:42:21 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+char	*ft_getcmd(char *arg)
+{
+	return (ft_strjoin("/usr/bin/", arg));
+}
+
+char	*ft_checkexe(char *cmd, char **path)
+{
+	int		i;
+	char	*tmp;
+	char	*for_exe;
+
+	i = 0;
+	while (path[i])
+	{
+		for_exe = ft_strjoin(path[i], "/");
+		tmp = ft_strjoin(for_exe, cmd);
+		if (access(tmp, F_OK) == 0)
+		{
+			free(for_exe);
+			return (tmp);
+		}
+		free(for_exe);
+		free(tmp);
+		i++;
+	}
+	return (NULL);
+}
 
 void	fill_argv(t_token **tokens, char **argv)
 {

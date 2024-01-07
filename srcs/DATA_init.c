@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrabat <mrabat@student.42.fr>              +#+  +:+       +#+        */
+/*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 16:22:23 by svanmarc          #+#    #+#             */
-/*   Updated: 2024/01/06 21:18:52 by mrabat           ###   ########.fr       */
+/*   Updated: 2024/01/07 11:50:36 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,8 @@ void	free_data(t_data *data)
 	if (data->tokens)
 	{
 		free_tokens(&data->tokens);
-		//free(data->tokens);
 		data->tokens = NULL;
 	}
-	//close(data->default_stdin);
-	//close(data->default_stdout);
 	free(data);
 	data = NULL;
 }
-

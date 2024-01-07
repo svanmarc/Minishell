@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tools.c                                            :+:      :+:    :+:   */
+/*   UTILS_tools.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrabat <mrabat@student.42.fr>              +#+  +:+       +#+        */
+/*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 18:10:14 by svanmarc          #+#    #+#             */
-/*   Updated: 2023/12/30 20:49:27 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/07 13:49:34 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,48 +35,6 @@ char	*ft_strtrim_whitespace(const char *str)
 		end--;
 	trimmed = ft_substr(str, start, end - start + 1);
 	return (trimmed);
-}
-
-int	ft_tokensize(t_token **lst)
-{
-	t_token	*tmp;
-	int		count;
-
-	tmp = *lst;
-	count = 0;
-	while (tmp)
-	{
-		tmp = tmp->next;
-		if (tmp && tmp->type != TK_TYPE_RED_IN
-			&& tmp->type != TK_TYPE_RED_OUT
-			&& tmp->type != TK_TYPE_RED_OUT_APPEND)
-			count++;
-	}
-	return (count);
-}
-
-void	sort_env(t_data *data)
-{
-	int		i;
-	int		j;
-	char	*tmp;
-
-	i = 0;
-	while (data->env[i])
-	{
-		j = i + 1;
-		while (data->env[j])
-		{
-			if (ft_strcmp(data->env[i], data->env[j]) > 0)
-			{
-				tmp = data->env[i];
-				data->env[i] = data->env[j];
-				data->env[j] = tmp;
-			}
-			j++;
-		}
-		i++;
-	}
 }
 
 void	ft_realloc(char **str, int size)

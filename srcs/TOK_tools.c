@@ -1,51 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokens_list_tools.c                                :+:      :+:    :+:   */
+/*   TOK_tools.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 06:13:24 by svanmarc          #+#    #+#             */
-/*   Updated: 2024/01/04 18:38:32 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/07 13:47:57 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	free_token(t_token *token)
-{
-	if (!token)
-		return ;
-	if (token->val)
-	{
-		free(token->val);
-		token->val = NULL;
-	}
-	if (token)
-		free(token);
-}
-
-void	free_tokens(t_token **tokens)
-{
-	t_token	*current;
-	t_token	*next;
-
-	if (!tokens || !*tokens)
-		return ;
-	current = *tokens;
-	while (current)
-	{
-		next = current->next;
-		if (current->val)
-		{
-			free(current->val);
-			current->val = NULL;
-		}
-		free(current);
-		current = next;
-	}
-	*tokens = NULL;
-}
 
 void	add_token_back(t_token **tokens, t_token *new_token)
 {
@@ -114,4 +79,22 @@ t_token	*its_last_token(t_token **tokens)
 		tmp = tmp->next;
 	}
 	return (NULL);
+}
+
+int	ft_tokensize(t_token **lst)
+{
+	t_token	*tmp;
+	int		count;
+
+	tmp = *lst;
+	count = 0;
+	while (tmp)
+	{
+		tmp = tmp->next;
+		if (tmp && tmp->type != TK_TYPE_RED_IN
+			&& tmp->type != TK_TYPE_RED_OUT
+			&& tmp->type != TK_TYPE_RED_OUT_APPEND)
+			count++;
+	}
+	return (count);
 }

@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   redirectry.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrabat <mrabat@student.42.fr>              +#+  +:+       +#+        */
+/*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 09:58:11 by svanmarc          #+#    #+#             */
-/*   Updated: 2024/01/07 00:47:29 by mrabat           ###   ########.fr       */
+/*   Updated: 2024/01/07 13:30:59 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// data->heredoc_handled = 0;
 int	apply_redirection_in(t_data *data, t_token *token)
 {
 	int	fd;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrabat <mrabat@student.42.fr>              +#+  +:+       +#+        */
+/*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 14:37:24 by mmarie            #+#    #+#             */
-/*   Updated: 2024/01/07 00:45:16 by mrabat           ###   ########.fr       */
+/*   Updated: 2024/01/07 11:16:51 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	ft_exec_ext_command(char **argv, t_data *data)
 
 	cmd = NULL;
 	path = NULL;
-	if (ft_strchr(argv[0],'/'))
+	if (ft_strchr(argv[0], '/'))
 	{
 		if (access(argv[0], F_OK) == 0)
 			cmd = ft_strdup(argv[0]);
@@ -109,7 +109,6 @@ void	ft_exec_ext_command(char **argv, t_data *data)
 int	ft_exec(t_data *data)
 {
 	char	**argv;
-
 
 	argv = get_cmd_array(&data->tokens);
 	if (!argv[0])

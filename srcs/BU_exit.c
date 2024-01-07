@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrabat <mrabat@student.42.fr>              +#+  +:+       +#+        */
+/*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 20:08:52 by svanmarc          #+#    #+#             */
-/*   Updated: 2024/01/06 23:41:54 by mrabat           ###   ########.fr       */
+/*   Updated: 2024/01/07 11:48:11 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ long	ft_atoi_exit(unsigned char *nptr)
 	return (res * sign);
 }
 
-int ft_is_digit_world(unsigned char *str)
+int	ft_is_digit_world(unsigned char *str)
 {
 	int	i;
 
@@ -43,7 +43,6 @@ int ft_is_digit_world(unsigned char *str)
 		i++;
 	}
 	return (1);
-
 }
 
 int	ft_exit(int argc, char **argv, t_data *data)
@@ -51,7 +50,7 @@ int	ft_exit(int argc, char **argv, t_data *data)
 	data->exit = 1;
 	if (argc == 2)
 	{
-		if(ft_is_digit_world((unsigned char *)argv[1]))
+		if (ft_is_digit_world((unsigned char *)argv[1]))
 		{
 			data->last_exit_status = ft_atoi_exit((unsigned char *)argv[1]);
 			printf("exit");
@@ -64,7 +63,6 @@ int	ft_exit(int argc, char **argv, t_data *data)
 			return (data->last_exit_status);
 		}
 	}
-
 	if (argc > 1)
 	{
 		printf("exit: too many arguments\n");

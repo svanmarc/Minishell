@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrabat <mrabat@student.42.fr>              +#+  +:+       +#+        */
+/*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 20:00:19 by svanmarc          #+#    #+#             */
-/*   Updated: 2024/01/06 22:56:07 by mrabat           ###   ########.fr       */
+/*   Updated: 2024/01/07 10:36:19 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ void	ft_launch_cmd(int nbcmd, t_data *data, int *pipefd)
 	data->tokens = token_arrays[i];
 	if (data->tokens->val)
 		ft_exec(data);
-	dup2(data->default_stdin,STDIN_FILENO);
-	dup2(data->default_stdout,STDOUT_FILENO);
+	dup2(data->default_stdin, STDIN_FILENO);
+	dup2(data->default_stdout, STDOUT_FILENO);
 	close(data->default_stdout);
 	close(data->default_stdin);
 	free(token_arrays);
@@ -69,7 +69,7 @@ int	ft_exec_pipe(t_data *data)
 	else
 	{
 		printf("need command for pipe \n");
-		return(1);
+		return (1);
 	}
 	return (0);
 }
