@@ -6,7 +6,7 @@
 /*   By: mrabat <mrabat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 14:37:24 by mmarie            #+#    #+#             */
-/*   Updated: 2024/01/06 23:26:04 by mrabat           ###   ########.fr       */
+/*   Updated: 2024/01/07 00:45:16 by mrabat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,17 @@ void	ft_exec_ext_command(char **argv, t_data *data)
 	char	**path;
 	char	*cmd;
 
-	path = ft_getenvpath(data->env);
-	cmd = ft_checkexe(argv[0], path);
+	cmd = NULL;
+	path = NULL;
+	if (ft_strchr(argv[0],'/'))
+	{
+		if (access(argv[0], F_OK) == 0)
+			cmd = ft_strdup(argv[0]);
+	}
+	if (cmd == NULL)
+		path = ft_getenvpath(data->env);
+	if (path)
+		cmd = ft_checkexe(argv[0], path);
 	if (cmd == NULL)
 	{
 		printf("%s : command not found\n", argv[0]);
@@ -118,7 +127,6 @@ int	ft_exec(t_data *data)
 		ft_exec_builtins(data, argv);
 	else
 		ft_exec_ext_command(argv, data);
-	//reset_redirections(data);
 	free_tokens(&data->tokens);
 	free(argv);
 	return (0);

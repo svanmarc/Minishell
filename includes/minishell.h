@@ -6,7 +6,7 @@
 /*   By: mrabat <mrabat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 20:19:39 by chbouthe          #+#    #+#             */
-/*   Updated: 2024/01/06 23:35:16 by mrabat           ###   ########.fr       */
+/*   Updated: 2024/01/07 00:53:42 by mrabat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,6 @@ int		ft_exec_pipe(t_data *data);
 t_token	**create_token_arrays(t_token **tokens, int nbpipes);
 void	ft_print_token_array(t_token **token_array);
 void	ft_wait_end(int nbcmd, int i, t_data *data);
-
+char	*ft_getenvhome(char **envp);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_cmd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: mrabat <mrabat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 12:32:30 by svanmarc          #+#    #+#             */
-/*   Updated: 2024/01/03 09:49:21 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/07 01:29:08 by mrabat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,33 @@ char	*ft_getenv(char *name, char **env)
 	return (NULL);
 }
 
+void	handle_error_cd(char *path)
+{
+    if (errno == ENOENT)
+        printf(RED"cd: no such file or directory: %s\n"RST, path);
+    else if (errno == EACCES)
+        printf(RED"cd: permission denied: %s\n"RST, path);
+    else if (errno == ENOTDIR)
+        printf(RED"cd: not a directory: %s\n"RST, path);
+    else
+        printf(RED"cd: %s: %s\n"RST, path, strerror(errno));
+}
+int ft_chdir(char *path, t_data *data)
+{
+	char	*old_path;
+
+	old_path = getcwd(NULL, 0);
+	if (chdir(path) != 0)
+	{
+        handle_error_cd(path);
+		return (1);
+	}
+	ft_setenv("OLDPWD", old_path, data->env);
+	ft_setenv("PWD", path, data->env);
+	return (0);
+
+}
+
 int	handle_cd_dash(t_data *data)
 {
 	char	*old_path;
@@ -74,39 +101,28 @@ int	handle_cd_dash(t_data *data)
 	return (0);
 }
 
-void	handle_error_cd(char *path)
-{
-    if (errno == ENOENT)
-        printf(RED"cd: no such file or directory: %s\n"RST, path);
-    else if (errno == EACCES)
-        printf(RED"cd: permission denied: %s\n"RST, path);
-    else if (errno == ENOTDIR)
-        printf(RED"cd: not a directory: %s\n"RST, path);
-    else
-        printf(RED"cd: %s: %s\n"RST, path, strerror(errno));
-}
 
 int	builtin_cd(int argc, char **argv, t_data *data)
 {
-	int	ret;
+	int		ret;
 
 	ret = 0;
+	if (argc == 1)
+		ret = ft_chdir(ft_getenvhome(data->env), data);
 	if (argc == 2)
 	{
 		errno = 0;
 		if (strcmp(argv[1], "-") == 0)
 			return (handle_cd_dash(data));
-		if (chdir(argv[1]) != 0)
-		{
-			ret = 1;
-            handle_error_cd(argv[1]);
-		}
+		if (strcmp(argv[1], "~") == 0)
+			ret = ft_chdir(ft_getenvhome(data->env), data);
+		else ft_chdir(argv[1], data);
 	}
 	if (argc > 2)
 	{
 		ret = 1;
 		if (opendir(argv[1]))
-			chdir(argv[1]);
+			ret = ft_chdir(argv[1], data);
 		else
 			printf(RED"cd: too many arguments\n"RST);
 	}

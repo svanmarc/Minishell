@@ -6,7 +6,7 @@
 /*   By: mrabat <mrabat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 14:34:59 by mrabat            #+#    #+#             */
-/*   Updated: 2024/01/06 21:10:02 by mrabat           ###   ########.fr       */
+/*   Updated: 2024/01/07 01:09:01 by mrabat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,28 @@
 char	*ft_getcmd(char *arg)
 {
 	return (ft_strjoin("/usr/bin/", arg));
+}
+char	*ft_getenvhome(char **envp)
+{
+	int		b_find;
+	int		i;
+	char	*tmp_slip;
+
+	b_find = 0;
+	i = 0;
+	while (envp[i] && b_find == 0)
+	{
+		if (ft_strncmp(envp[i], "HOME", 4) == 0)
+			b_find = 1;
+		i++;
+	}
+	if (b_find == 0)
+	{
+		printf("cd: HOME not set\n");
+		return (NULL);
+	}
+	tmp_slip = envp[i - 1] + 5;
+	return (tmp_slip);
 }
 
 char	**ft_getenvpath(char **envp)
@@ -33,10 +55,7 @@ char	**ft_getenvpath(char **envp)
 		i++;
 	}
 	if (b_find == 0)
-	{
-		printf(RED": ERROR ENV VARIBLES\n"RST);
-		exit(1);
-	}
+		return (NULL);
 	tmp_slip = envp[i - 1] + 5;
 	t_path = ft_split(tmp_slip, ':');
 	return (t_path);
@@ -49,11 +68,6 @@ char	*ft_checkexe(char *cmd, char **path)
 	char	*for_exe;
 
 	i = 0;
-	if (ft_strchr(cmd,'/'))
-	{
-		if (access(cmd, F_OK) == 0)
-			return ft_strdup(cmd);
-	}
 	while (path[i])
 	{
 		for_exe = ft_strjoin(path[i], "/");

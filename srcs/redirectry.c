@@ -6,7 +6,7 @@
 /*   By: mrabat <mrabat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 09:58:11 by svanmarc          #+#    #+#             */
-/*   Updated: 2023/12/31 00:00:26 by mrabat           ###   ########.fr       */
+/*   Updated: 2024/01/07 00:47:29 by mrabat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,8 @@ int	apply_redirections(t_data *data, t_token **tokens)
 		if (tmp->type == TK_TYPE_RED_IN_DELIM)
 		{
 			ret = apply_redirection_in_delim(data, tmp);
-			tmp = tmp->next;
+			if (tmp->next)
+				tmp = tmp->next;
 		}
 		tmp = tmp->next;
 	}
