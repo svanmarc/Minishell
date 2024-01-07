@@ -1,81 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   TOK_tokenize_line_origin.c                         :+:      :+:    :+:   */
+/*   TOK_tokenize_line.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/07 06:12:02 by svanmarc          #+#    #+#             */
-/*   Updated: 2024/01/07 16:02:48 by svanmarc         ###   ########.fr       */
+/*   Created: 2024/01/07 16:43:47 by svanmarc          #+#    #+#             */
+/*   Updated: 2024/01/07 16:44:13 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	get_id_of_closing_quote(char *line, int opening_quote_id)
-{
-	char	quote_type;
-
-	quote_type = line[opening_quote_id];
-	opening_quote_id ++;
-	while (line[opening_quote_id])
-	{
-		if (line[opening_quote_id] == quote_type)
-			return (opening_quote_id);
-		opening_quote_id++;
-	}
-	return (-1);
-}
-
-int	make_op_token_and_return_id(char *line, int *i, t_token **tokens)
-{
-	int		type;
-	char	*val;
-	int		op_id;
-
-	if (!line || !tokens || !i)
-		return (-1);
-	op_id = *i;
-	if (line[op_id + 1] == line[op_id])
-	{
-		type = get_token_type(line, op_id);
-		val = ft_substr(line, op_id, 2);
-		if (!val)
-		{
-			free_tokens(tokens);
-			return (-1);
-		}
-		if (!make_list_tokens(tokens, val, type, 0))
-		{
-			free(val);
-			free_tokens(tokens);
-			return (-1);
-		}
-		free(val);
-		op_id += 2;
-	}
-	else
-	{
-		type = get_token_type(line, op_id);
-		val = ft_substr(line, op_id, 1);
-		if (!val)
-		{
-			free_tokens(tokens);
-			return (-1);
-		}
-		if (!make_list_tokens(tokens, val, type, 0))
-		{
-			free(val);
-			free_tokens(tokens);
-			return (-1);
-		}
-		free(val);
-		op_id += 1;
-	}
-	*i = op_id;
-	return (op_id);
-}
-
 
 int	make_str_token_and_return_id(char *line, int *i, t_token **tokens)
 {
@@ -86,19 +21,11 @@ int	make_str_token_and_return_id(char *line, int *i, t_token **tokens)
 
 	if (!line || !tokens || !i)
 		return (-1);
-	if (*i > 0 && ft_is_white_space(line[*i - 1]))
-		space_before = 1;
-	else
-		space_before = 0;
+	space_before = get_val_of_space_before(line, i);
 	end_str_id = get_end_str_id(line, *i);
-	val = ft_substr(line, *i, end_str_id - *i);
-	if (!val)
-	{
-		free_tokens(tokens);
-		return (-1);
-	}
 	type = TK_TYPE_STR;
-	if (!make_list_tokens(tokens, val, type, space_before))
+	val = ft_substr(line, *i, end_str_id - *i);
+	if (!val || !make_list_tokens(tokens, val, type, space_before))
 	{
 		free(val);
 		free_tokens(tokens);

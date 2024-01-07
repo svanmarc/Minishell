@@ -5,54 +5,54 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/07 15:11:53 by svanmarc          #+#    #+#             */
-/*   Updated: 2024/01/07 16:04:35 by svanmarc         ###   ########.fr       */
+/*   Created: 2024/01/07 16:12:19 by svanmarc          #+#    #+#             */
+/*   Updated: 2024/01/07 16:33:33 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	change_env_var_in_token(t_token *token, char quote_type)
+int	get_op_id(char *line, int op_id)
 {
-	if (!token)
-		return ;
-	if (quote_type == '\'')
-		token->change_env_var = 1;
-	else if (quote_type == '\"')
-		token->change_env_var = 0;
+	if (line[op_id + 1] == line[op_id])
+		op_id += 2;
+	else
+		op_id += 1;
+	return (op_id);
 }
 
-int	handle_missing_quote_error(char quote_type, t_token **tokens)
+char	*get_val_of_op_token(char *line, int op_id)
 {
-	printf(RED"Dont forget to close your quotes [%c]!\n"RST, quote_type);
-	free_tokens(tokens);
-	return (-1);
-}
-
-int	make_quote_token_and_return_id(char *line, int *i, t_token **tokens)
-{
-	char	quote_type;
-	int		space_before;
 	char	*val;
-	t_token	*tmp;
-	int		closing_quote_id;
+
+	if (line[op_id + 1] == line[op_id])
+		val = ft_substr(line, op_id, 2);
+	else
+		val = ft_substr(line, op_id, 1);
+	return (val);
+}
+
+int	make_op_token_and_return_id(char *line, int *i, t_token **tokens)
+{
+	int		type;
+	char	*val;
+	int		op_id;
+	int		space_before;
 
 	if (!line || !tokens || !i)
 		return (-1);
-	quote_type = line[*i];
+	op_id = *i;
 	space_before = get_val_of_space_before(line, i);
-	closing_quote_id = get_id_of_closing_quote(line, *i);
-	if (closing_quote_id == -1)
-		return (handle_missing_quote_error(quote_type, tokens));
-	val = ft_substr(line, *i + 1, closing_quote_id - *i - 1);
-	if (!val || !make_list_tokens(tokens, val, TK_TYPE_STR, space_before))
+	type = get_token_type(line, op_id);
+	val = get_val_of_op_token(line, op_id);
+	if (!val || !make_list_tokens(tokens, val, type, space_before))
 	{
 		free(val);
 		free_tokens(tokens);
 		return (-1);
 	}
-	tmp = its_last_token(tokens);
-	change_env_var_in_token(tmp, quote_type);
 	free(val);
-	return (closing_quote_id + 1);
+	op_id = get_op_id(line, op_id);
+	*i = op_id;
+	return (op_id);
 }
