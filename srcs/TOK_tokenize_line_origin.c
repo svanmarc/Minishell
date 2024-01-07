@@ -6,7 +6,7 @@
 /*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 06:12:02 by svanmarc          #+#    #+#             */
-/*   Updated: 2024/01/07 14:38:59 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/07 16:02:48 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,46 +76,6 @@ int	make_op_token_and_return_id(char *line, int *i, t_token **tokens)
 	return (op_id);
 }
 
-int	make_quote_token_and_return_id(char *line, int *i, t_token **tokens)
-{
-	int		closing_quote_id;
-	char	*val;
-	int		type;
-	t_token	*tmp;
-	char	quote_type;
-
-	if (!line || !tokens || !i)
-		return (-1);
-	quote_type = line[*i];
-	tmp = NULL;
-	closing_quote_id = get_id_of_closing_quote(line, *i);
-	if (closing_quote_id == -1)
-	{
-		printf("don't forget to close the quote [%c]\n", quote_type);
-		free_tokens(tokens);
-		return (-1);
-	}
-	val = ft_substr(line, *i + 1, closing_quote_id - *i - 1);
-	if (!val)
-	{
-		free_tokens(tokens);
-		return (-1);
-	}
-	type = TK_TYPE_STR;
-	if (!make_list_tokens(tokens, val, type, 0))
-	{
-		free(val);
-		free_tokens(tokens);
-		return (-1);
-	}
-	tmp = its_last_token(tokens);
-	if (quote_type == '"')
-		tmp->change_env_var = 0;
-	else if (quote_type == '\'')
-		tmp->change_env_var = 1;
-	free(val);
-	return (closing_quote_id + 1);
-}
 
 int	make_str_token_and_return_id(char *line, int *i, t_token **tokens)
 {

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenize_line_tools.c                              :+:      :+:    :+:   */
+/*   TOK_tokenize_line_tools.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 21:03:40 by svanmarc          #+#    #+#             */
-/*   Updated: 2024/01/07 13:12:39 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/07 16:03:32 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,17 @@ int	get_end_str_id(char *line, int start_str_id)
 		&& line[start_str_id] != '\'')
 		start_str_id++;
 	return (start_str_id);
+}
+
+int	get_val_of_space_before(char *line, int *i)
+{
+	int	space_before;
+
+	if (!line || !i)
+		return (0);
+	if (*i > 0 && ft_is_white_space(line[*i - 1]))
+		space_before = 1;
+	else
+		space_before = 0;
+	return (space_before);
 }

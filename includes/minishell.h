@@ -6,7 +6,7 @@
 /*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 20:19:39 by chbouthe          #+#    #+#             */
-/*   Updated: 2024/01/07 13:56:55 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/07 16:03:45 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,5 +117,6 @@ int	free_tokens_and_val_and_ret_neg(t_token **tokens, char *val);
 
 int	make_op_token_and_return_id(char *line, int *i, t_token **tokens);
 int	make_quote_token_and_return_id(char *line, int *i, t_token **tokens);
+int	get_val_of_space_before(char *line, int *i);
 
 #endif
