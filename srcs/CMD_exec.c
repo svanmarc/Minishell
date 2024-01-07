@@ -6,7 +6,7 @@
 /*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 14:37:24 by mmarie            #+#    #+#             */
-/*   Updated: 2024/01/07 18:20:33 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/07 21:00:06 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void	exec_external_command(char *cmd, char **argv, t_data *data)
 	pid_t	pid;
 	int		status;
 
+	signal(SIGINT, &parent_sig_handler);
+	signal(SIGQUIT, &parent_sig_handler);
 	pid = fork();
 	if (pid < 0)
 	{
@@ -66,17 +68,17 @@ void	exec_external_command(char *cmd, char **argv, t_data *data)
 	}
 	else if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		execve(cmd, argv, data->env);
 		exit(EXIT_FAILURE);
 	}
+	waitpid(pid, &status, 0);
+	handle_signal();
+	if (WIFEXITED(status))
+		data->last_exit_status = WEXITSTATUS(status);
 	else
-	{
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			data->last_exit_status = WEXITSTATUS(status);
-		else
-			data->last_exit_status = 128 + WTERMSIG(status);
-	}
+		data->last_exit_status = 128 + WTERMSIG(status);
 }
 
 void	ft_exec_ext_command(char **argv, t_data *data)

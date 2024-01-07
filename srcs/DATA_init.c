@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_data.c                                        :+:      :+:    :+:   */
+/*   DATA_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 16:22:23 by svanmarc          #+#    #+#             */
-/*   Updated: 2024/01/07 11:50:36 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/07 21:26:25 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ t_data	*init_data(char **env)
 	data->default_stdout = dup(STDOUT_FILENO);
 	data->original_stdout = -1;
 	data->tokens = NULL;
-	data->heredoc_handled = 0;
 	data->nb_pipes = 0;
 	return (data);
 }

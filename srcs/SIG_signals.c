@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   SIG_signals.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 11:26:26 by glambrig          #+#    #+#             */
-/*   Updated: 2024/01/07 13:26:47 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/07 21:54:59 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	sig_handler_sa(int signal, siginfo_t *info, void *context)
+void	sig_handler_sa(int signal)
 {
-	(void)info;
-	(void)context;
 	if (signal == SIGINT)
 	{
 		rl_replace_line("", 0);
@@ -32,14 +30,16 @@ void	sig_handler_sa(int signal, siginfo_t *info, void *context)
 	}
 }
 
+void	parent_sig_handler(int signal)
+{
+	if (signal == SIGQUIT)
+		ft_putstr_fd("Quit", STDOUT_FILENO);
+	ft_putstr_fd("\n", STDOUT_FILENO);
+}
+
 int	handle_signal(void)
 {
-	struct sigaction	sa;
-
-	ft_memset(&sa, 0, sizeof(sa));
-	sa.sa_sigaction = (void *) sig_handler_sa;
-	sa.sa_flags = SA_SIGINFO;
-	sigaction(SIGINT, &sa, NULL);
-	sigaction(SIGQUIT, &sa, NULL);
+	signal(SIGINT, &sig_handler_sa);
+	signal(SIGQUIT, &sig_handler_sa);
 	return (0);
 }

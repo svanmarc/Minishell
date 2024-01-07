@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirectry.c                                       :+:      :+:    :+:   */
+/*   REDIR_apply_redir.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 09:58:11 by svanmarc          #+#    #+#             */
-/*   Updated: 2024/01/07 13:30:59 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/07 21:53:38 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,9 @@ int	apply_redirection_in(t_data *data, t_token *token)
 {
 	int	fd;
 
-	if (data->heredoc_handled == 0 && ft_rediretion_error(data, token))
+	if (ft_rediretion_error(data, token))
 		return (1);
-	if (data->heredoc_handled == 1)
-		fd = open (".heredoc", O_RDONLY);
-	else
-		fd = open(token->next->val, O_RDONLY);
+	fd = open(token->next->val, O_RDONLY);
 	if (fd == -1)
 		return (handle_error_fd(data, token, fd));
 	if (data->original_stdin == -1)

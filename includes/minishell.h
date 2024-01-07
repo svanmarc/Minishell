@@ -6,7 +6,7 @@
 /*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 20:19:39 by chbouthe          #+#    #+#             */
-/*   Updated: 2024/01/07 18:53:19 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/07 20:59:35 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_data	*init_data(char **env);
 void	free_data(t_data *data);
 
 //signals
+void	parent_sig_handler(int signal);
 int		handle_signal(void);
 
 //tokenisation

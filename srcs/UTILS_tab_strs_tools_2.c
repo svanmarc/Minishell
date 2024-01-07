@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tab_strs_tools_2.c                                 :+:      :+:    :+:   */
+/*   UTILS_tab_strs_tools_2.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 17:03:33 by svanmarc          #+#    #+#             */
-/*   Updated: 2023/12/30 16:18:32 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/07 22:02:35 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ int	ft_str_starts_with(char *str, char *start)
 			return (0);
 		i++;
 	}
-	return (!start[i]);
+	if (str[i] != '=' && str[i] != '\0')
+		return (0);
+	return (1);
 }
 
 int	ft_str_ends_with(char *str, char *end)

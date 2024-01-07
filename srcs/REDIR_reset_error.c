@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_error_fd.c                                  :+:      :+:    :+:   */
+/*   REDIR_reset_error.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrabat <mrabat@student.42.fr>              +#+  +:+       +#+        */
+/*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 09:38:25 by svanmarc          #+#    #+#             */
-/*   Updated: 2023/12/30 20:21:32 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/07 21:25:35 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,4 @@ void	reset_redirections(t_data *data)
 		close(data->original_stdin);
 		data->original_stdin = -1;
 	}
-	if (data->heredoc_handled == 1)
-		unlink (".heredoc");
-	data->heredoc_handled = 0;
 }

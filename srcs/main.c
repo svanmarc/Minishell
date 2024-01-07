@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   _main.c                                            :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 16:15:21 by svanmarc          #+#    #+#             */
-/*   Updated: 2024/01/07 18:24:09 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/07 21:54:10 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ int	main(int argc, char **argv, char **env)
 		if (data->exit == 1)
 			break ;
 	}
-	reset_redirections(data);
 	ret = data->last_exit_status;
 	free_data(data);
 	return (ret);
