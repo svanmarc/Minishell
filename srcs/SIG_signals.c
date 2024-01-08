@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   SIG_signals.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: mrabat <mrabat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 11:26:26 by glambrig          #+#    #+#             */
-/*   Updated: 2024/01/07 21:54:59 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/08 18:28:58 by mrabat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	sig_handler_sa(int signal)
 	{
 		rl_replace_line("", 0);
 		rl_on_new_line();
-		printf("\n");
+		write(0, "\n", 1);
 		rl_redisplay();
 	}
 	else if (signal == SIGQUIT)
