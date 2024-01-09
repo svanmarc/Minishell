@@ -6,7 +6,7 @@
 /*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 20:19:39 by chbouthe          #+#    #+#             */
-/*   Updated: 2024/01/07 20:59:35 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/09 20:22:37 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int		apply_redirections(t_data *data, t_token **tokens);
 void	reset_redirections(t_data *data);
 int		apply_redirection_in_delim(t_data *data, t_token *token);
 int		apply_redirection_in(t_data *data, t_token *token);
+int		is_redirection(t_token *token);
 
 //redirections tools
 int		ft_rediretion_error(t_data *data, t_token *token);
@@ -109,10 +110,13 @@ void	dup_close_pipe(int *pipefd, int fd);
 void	ft_fork_and_exec(t_data *data, int *pipefd);
 
 //env
-int		ft_setenv(char *name, char *value, char **env);
+int		ft_setenv(char *name, char *value, t_data *data);
 char	*ft_getenv(char *name, char **env);
 void	replace_env_var(t_data *data);
 char	*get_value_of_env_var(t_data *data, char *env_var);
+int	update_existing_var(t_data *data, char *arg, char *key, char *update_value);
+void	update_env(t_data *data, char *arg);
+char	*ft_getenvoldpwd(char **envp);
 
 //utils
 int		ft_arg_error(char **argv);

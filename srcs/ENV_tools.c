@@ -6,35 +6,36 @@
 /*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 11:21:18 by svanmarc          #+#    #+#             */
-/*   Updated: 2024/01/07 13:46:09 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/09 20:49:37 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	ft_setenv(char *name, char *value, char **env)
+int	ft_setenv(char *name, char *value, t_data *data)
 {
 	int		i;
-	char	*new_env;
 	char	*tmp;
 
 	i = 0;
-	while (env[i] != NULL)
+	while (data->env[i] != NULL)
 	{
-		if (ft_strncmp(env[i], name, ft_strlen(name)) == 0
-			&& env[i][ft_strlen(name)] == '=')
+		if (ft_strncmp(data->env[i], name, ft_strlen(name)) == 0
+			&& data->env[i][ft_strlen(name)] == '=')
 		{
-			tmp = ft_strjoin(name, "=");
-			new_env = ft_strjoin(tmp, value);
+			tmp = data->env[i];
 			free(tmp);
-			free(env[i]);
-			env[i] = new_env;
+			tmp = NULL;
+			tmp = ft_strjoin(name, "=");
+			data->env[i] = ft_strjoin(tmp, value);
+			free(tmp);
 			return (0);
 		}
 		i++;
 	}
 	return (1);
 }
+
 
 char	*ft_getenv(char *name, char **env)
 {
@@ -71,6 +72,31 @@ char	**ft_getenvpath(char **envp)
 	tmp_slip = envp[i - 1] + 5;
 	t_path = ft_split(tmp_slip, ':');
 	return (t_path);
+}
+
+char	*ft_getenvoldpwd(char **envp)
+{
+	int		b_find;
+	int		i;
+	char	*tmp_slip;
+
+	b_find = 0;
+	i = 0;
+	while (envp[i] && b_find == 0)
+	{
+		if (ft_strncmp(envp[i], "OLDPWD", 6) == 0)
+			b_find = 1;
+		i++;
+	}
+	if (b_find == 0)
+	{
+		printf("cd: OLDPWD not set\n");
+		return (NULL);
+	}
+	tmp_slip = envp[i - 1] + 7;
+	if (access(tmp_slip, F_OK) == 0)
+		printf("%s\n", tmp_slip);
+	return (tmp_slip);
 }
 
 char	*ft_getenvhome(char **envp)

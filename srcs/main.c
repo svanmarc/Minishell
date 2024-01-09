@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrabat <mrabat@student.42.fr>              +#+  +:+       +#+        */
+/*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 16:15:21 by svanmarc          #+#    #+#             */
-/*   Updated: 2024/01/08 17:49:14 by mrabat           ###   ########.fr       */
+/*   Updated: 2024/01/09 15:15:48 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	main(int argc, char **argv, char **env)
 	handle_signal();
 	while (1)
 	{
-		data->line = readline("Myshell $>");
+		data->line = readline("Myshell ♥‿♥ ");
 		if (ft_minishell(data))
 			continue ;
 		ft_ftok(data);

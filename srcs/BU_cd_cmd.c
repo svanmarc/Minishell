@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd_cmd.c                                           :+:      :+:    :+:   */
+/*   BU_cd_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 12:32:30 by svanmarc          #+#    #+#             */
-/*   Updated: 2024/01/07 11:32:45 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/09 20:44:16 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,32 +36,9 @@ int	ft_chdir(char *path, t_data *data)
 		return (free(old_path), 1);
 	}
 	new_path = getcwd(NULL, 0);
-	ft_setenv("OLDPWD", old_path, data->env);
-	ft_setenv("PWD", new_path, data->env);
+	ft_setenv("OLDPWD", old_path, data);
+	ft_setenv("PWD", new_path, data);
 	free(new_path);
-	return (free(old_path), 0);
-}
-
-int	handle_cd_dash(t_data *data)
-{
-	char	*old_path;
-	char	*new_path;
-
-	old_path = getcwd(NULL, 0);
-	new_path = ft_getenv("OLDPWD", data->env);
-	if (new_path == NULL)
-	{
-		printf(RED"cd: OLDPWD not set\n"RST);
-		return (free(old_path),free(new_path), 1);
-	}
-	if (chdir(new_path) != 0)
-	{
-		printf(RED"cd: %s: %s\n"RST, new_path, strerror(errno));
-		return (free(old_path),free(new_path), 1);
-	}
-	printf("%s\n", new_path);
-	ft_setenv("OLDPWD", old_path, data->env);
-	ft_setenv("PWD", new_path, data->env);
 	return (free(old_path), 0);
 }
 
@@ -76,11 +53,10 @@ int	builtin_cd(int argc, char **argv, t_data *data)
 	{
 		errno = 0;
 		if (strcmp(argv[1], "-") == 0)
-			return (handle_cd_dash(data));
+			return (ft_chdir(ft_getenvoldpwd(data->env), data));
 		if (strcmp(argv[1], "~") == 0)
-			ret = ft_chdir(ft_getenvhome(data->env), data);
-		else
-			ft_chdir(argv[1], data);
+			return (ft_chdir(ft_getenvhome(data->env), data));
+		return (ft_chdir(argv[1], data));
 	}
 	if (argc > 2)
 	{

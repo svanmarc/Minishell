@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tab_strs_tools_1.c                                 :+:      :+:    :+:   */
+/*   UTILS_tab_strs_tools_1.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrabat <mrabat@student.42.fr>              +#+  +:+       +#+        */
+/*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 17:02:53 by svanmarc          #+#    #+#             */
-/*   Updated: 2023/12/30 19:37:09 by mrabat           ###   ########.fr       */
+/*   Updated: 2024/01/09 19:57:10 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,9 @@ char	**ft_tab_dup(char **tab)
 	while (j < i)
 	{
 		new[j] = ft_strdup(tab[j]);
-		if (!new[j])
-			return (free_tab_and_return_null(new));
 		j++;
 	}
+	new[j] = NULL;
 	return (new);
 }
 
