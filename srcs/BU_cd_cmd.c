@@ -27,16 +27,19 @@ void	handle_error_cd(char *path)
 int	ft_chdir(char *path, t_data *data)
 {
 	char	*old_path;
+	char	*new_path;
 
 	old_path = getcwd(NULL, 0);
 	if (chdir(path) != 0)
 	{
 		handle_error_cd(path);
-		return (1);
+		return (free(old_path), 1);
 	}
+	new_path = getcwd(NULL, 0);
 	ft_setenv("OLDPWD", old_path, data->env);
-	ft_setenv("PWD", path, data->env);
-	return (0);
+	ft_setenv("PWD", new_path, data->env);
+	free(new_path);
+	return (free(old_path), 0);
 }
 
 int	handle_cd_dash(t_data *data)
@@ -49,17 +52,17 @@ int	handle_cd_dash(t_data *data)
 	if (new_path == NULL)
 	{
 		printf(RED"cd: OLDPWD not set\n"RST);
-		return (1);
+		return (free(old_path),free(new_path), 1);
 	}
 	if (chdir(new_path) != 0)
 	{
 		printf(RED"cd: %s: %s\n"RST, new_path, strerror(errno));
-		return (1);
+		return (free(old_path),free(new_path), 1);
 	}
 	printf("%s\n", new_path);
 	ft_setenv("OLDPWD", old_path, data->env);
 	ft_setenv("PWD", new_path, data->env);
-	return (0);
+	return (free(old_path), 0);
 }
 
 int	builtin_cd(int argc, char **argv, t_data *data)
