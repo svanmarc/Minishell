@@ -6,7 +6,7 @@
 /*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 17:02:16 by svanmarc          #+#    #+#             */
-/*   Updated: 2024/01/07 17:40:56 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/10 07:04:35 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,16 @@ int	free_and_exit_if_forbidden_token(t_data *data)
 	tmp = data->tokens;
 	while (tmp)
 	{
+		if (is_redirection(tmp) && (!tmp->previous || !tmp->next))
+		{
+			printf("Myshell ♥‿♥ : syntax error near");
+			printf(" unexpected token `newline'\n");
+			ft_ftok(data);
+			return (1);
+		}
 		if (tmp->type == TK_TYPE_AND || tmp->type == TK_TYPE_OR)
 		{
-			printf(RED "sorry, dont use [%s]", tmp->val);
+			printf(RED "sorry, dont use [%s] ", tmp->val);
 			printf(RED "we haven't done the bonus\n"RST);
 			ft_ftok(data);
 			return (1);
