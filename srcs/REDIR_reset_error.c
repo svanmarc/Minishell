@@ -6,11 +6,21 @@
 /*   By: svanmarc <@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 09:38:25 by svanmarc          #+#    #+#             */
-/*   Updated: 2024/01/09 15:40:35 by svanmarc         ###   ########.fr       */
+/*   Updated: 2024/01/10 10:07:57 by svanmarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	is_redirection(t_token *token)
+{
+	if (token->type == TK_TYPE_RED_IN
+		|| token->type == TK_TYPE_RED_IN_DELIM
+		|| token->type == TK_TYPE_RED_OUT
+		|| token->type == TK_TYPE_RED_OUT_APPEND)
+		return (1);
+	return (0);
+}
 
 int	ft_rediretion_error(t_data *data, t_token *token)
 {
